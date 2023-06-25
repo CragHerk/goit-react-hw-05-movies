@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const [movies, setMovies] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -19,27 +21,28 @@ const Home = () => {
     fetchMovies();
   }, []);
 
+  const handleMovieClick = movieId => {
+    navigate(`/movies/${movieId}`);
+  };
+
   return (
     <div>
+      <nav>
+        <Link to="/">Home</Link>
+        <Link to="/movies">Movies</Link>
+      </nav>
       <header>
-        <h1>FilmHub</h1>
-        <button>Wyszukaj swój ulubiony film</button>
+        <h1>Trending Movies</h1>
       </header>
       <div>
-        {movies.map(movie => (
-          <div key={movie.id}>
-            <img
-              src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
-              alt={movie.title}
-            />
-            <h3>{movie.title}</h3>
-            <p>{movie.release_date}</p>
-          </div>
-        ))}
+        <ul>
+          {movies.map(movie => (
+            <li key={movie.id} onClick={() => handleMovieClick(movie.id)}>
+              {movie.title}
+            </li>
+          ))}
+        </ul>
       </div>
-      <footer>
-        <button>Pokaż więcej</button>
-      </footer>
     </div>
   );
 };
