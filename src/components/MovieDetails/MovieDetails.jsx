@@ -11,6 +11,7 @@ const MovieDetails = () => {
   const [showCast, setShowCast] = useState(false);
   const [showReviews, setShowReviews] = useState(false);
   const location = useLocation();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -20,8 +21,14 @@ const MovieDetails = () => {
         );
         const data = await response.json();
         setMovieDetails(data);
+
+        // Symulacja opóźnienia dla wyświetlenia MoonLoader
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 300);
       } catch (error) {
         console.log('Error fetching movie details:', error);
+        setIsLoading(false);
       }
     };
 
@@ -42,12 +49,16 @@ const MovieDetails = () => {
     setShowCast(false);
   };
 
-  if (!movieDetails) {
+  if (isLoading) {
     return (
       <div className={styles.loader}>
-        <MoonLoader color="black" loading={true} size={100} />
+        <MoonLoader color="black" loading={isLoading} size={100} />
       </div>
     );
+  }
+
+  if (!movieDetails) {
+    return <div>Movie details not found.</div>;
   }
 
   const { title, overview, vote_average, genres, poster_path } = movieDetails;

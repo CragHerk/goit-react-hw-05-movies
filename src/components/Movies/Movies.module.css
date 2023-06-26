@@ -33,10 +33,11 @@
 .search {
   margin-top: 20px;
   height: 30px;
+  margin-left: 10px;
 }
 .input {
   height: 29px;
-  width: 250px;
+  width: 200px;
 }
 .button {
   height: 35px;
@@ -44,6 +45,7 @@
   outline: none;
   border: 1px solid grey;
   cursor: pointer;
+  background-color: transparent;
 }
 .li {
   cursor: pointer;
