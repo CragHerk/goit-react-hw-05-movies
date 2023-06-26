@@ -49,7 +49,10 @@ const MovieDetails = () => {
     setShowCast(false);
   };
 
-  if (isLoading) {
+  if (
+    isLoading &&
+    (location.pathname === '/' || location.pathname.startsWith('/movies'))
+  ) {
     return (
       <div className={styles.loader}>
         <MoonLoader color="black" loading={isLoading} size={100} />
