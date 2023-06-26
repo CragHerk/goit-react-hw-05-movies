@@ -1,0 +1,93 @@
+.nav {
+  border-bottom: 1px solid grey;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+  height: 50px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.nav__name {
+  outline: none;
+  text-decoration: none;
+  color: black;
+  margin-left: 10px;
+  font-size: large;
+  transition: ease-in-out 0.3s;
+}
+.nav__namehome {
+  outline: none;
+  text-decoration: none;
+  color: black;
+  margin-left: 10px;
+  font-size: large;
+
+  transition: ease-in-out 0.3s;
+}
+.nav__namehome:hover {
+  scale: 1.1;
+}
+.nav__name:hover {
+  scale: 1.1;
+}
+.goback {
+  margin-top: 10px;
+  background-color: transparent;
+  cursor: pointer;
+  margin-left: 10px;
+}
+.title {
+  margin-left: 20px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.poster {
+  width: 200px;
+  margin-left: 10px;
+}
+.score {
+  margin-left: 20px;
+}
+.overview {
+  margin-left: 20px;
+  font-weight: bold;
+}
+.genres {
+  margin-left: 20px;
+  font-weight: bold;
+}
+.info {
+  margin-left: 20px;
+}
+.posterContainer {
+  display: flex;
+  margin-top: 5px;
+}
+p {
+  margin-left: 20px;
+}
+.additional {
+  border-top: 2px solid rgba(0, 0, 0, 0.2);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+
+  margin-top: 10px;
+}
+.additional__button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: rgba(0, 0, 255, 0.805);
+}
+.additional__button:hover {
+  text-decoration: underline;
+}
+.cast {
+  margin-left: 10px;
+}
+.loader {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999;
+  fill: black;
+}

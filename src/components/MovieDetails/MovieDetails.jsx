@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
+import { MoonLoader } from 'react-spinners';
+import { useParams, Link, useLocation } from 'react-router-dom';
 import Cast from '../Cast/Cast';
 import Reviews from '../Reviews/Reviews';
+import styles from './MovieDetails.module.css';
 
 const MovieDetails = () => {
   const { movieId } = useParams();
   const [movieDetails, setMovieDetails] = useState(null);
   const [showCast, setShowCast] = useState(false);
   const [showReviews, setShowReviews] = useState(false);
-  const navigate = useNavigate();
   const location = useLocation();
-  const [previousPath, setPreviousPath] = useState('/');
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -26,61 +26,77 @@ const MovieDetails = () => {
     };
 
     fetchMovieDetails();
-
-    // Ustaw poprzednią ścieżkę przy wejściu do komponentu MovieDetails
-    if (location.state && location.state.from) {
-      setPreviousPath(location.state.from);
-    }
   }, [movieId, location.state]);
 
+  const handleGoBack = () => {
+    window.history.back();
+  };
+
+  const handleShowCast = () => {
+    setShowCast(!showCast);
+    setShowReviews(false);
+  };
+
+  const handleShowReviews = () => {
+    setShowReviews(!showReviews);
+    setShowCast(false);
+  };
+
   if (!movieDetails) {
-    return <div>Loading...</div>;
+    return (
+      <div className={styles.loader}>
+        <MoonLoader color="black" loading={true} size={100} />
+      </div>
+    );
   }
 
   const { title, overview, vote_average, genres, poster_path } = movieDetails;
   const imageUrl = `https://image.tmdb.org/t/p/w500${poster_path}`;
 
-  const handleGoBack = () => {
-    navigate(previousPath);
-  };
-
-  const handleShowCast = () => {
-    setShowCast(!showCast); // Odwracamy wartość stanu showCast przy każdym kliknięciu
-    setShowReviews(false); // Zamykamy listę z recenzjami
-  };
-
-  const handleShowReviews = () => {
-    setShowReviews(!showReviews); // Odwracamy wartość stanu showReviews przy każdym kliknięciu
-    setShowCast(false); // Zamykamy listę z obsadą
-  };
-
   return (
     <div>
-      <nav>
-        <Link to="/">Home</Link>
-        <Link to="/movies">Movies</Link>
+      <nav className={styles.nav}>
+        <Link to="/" className={styles.nav__namehome}>
+          Home
+        </Link>
+        <Link to="/movies" className={styles.nav__name}>
+          Movies
+        </Link>
       </nav>
 
-      <button onClick={handleGoBack}>Go Back</button>
+      <button onClick={handleGoBack} className={styles.goback}>
+        Go Back
+      </button>
+      <div className={styles.posterContainer}>
+        <img src={imageUrl} alt={title} className={styles.poster} />
+        <div className={styles.movieInfo}>
+          <h2 className={styles.title}>{title}</h2>
+          <p className={styles.score}>User Score {vote_average}</p>
+          <span className={styles.overview}>Overview</span>
+          <p> {overview}</p>
+          <span className={styles.genres}> Genres </span>
+          <p> {genres.map(genre => genre.name).join(', ')}</p>
+        </div>
+      </div>
 
-      <h2>{title}</h2>
-      <img src={imageUrl} alt={title} style={{ width: '200px' }} />
-      <p>User Score: {vote_average}</p>
-      <p>Overview: {overview}</p>
-      <p>Genres: {genres.map(genre => genre.name).join(', ')}</p>
-
-      <div>
-        <h3>Additional Information</h3>
+      <div className={styles.additional}>
+        <h3 className={styles.info}>Additional Information</h3>
         <nav>
           <ul>
             <li>
-              <button onClick={handleShowCast}>
-                {showCast ? 'Hide Cast' : 'Show Cast'}
+              <button
+                className={styles.additional__button}
+                onClick={handleShowCast}
+              >
+                {showCast ? ' Cast' : ' Cast'}
               </button>
             </li>
             <li>
-              <button onClick={handleShowReviews}>
-                {showReviews ? 'Hide Reviews' : 'Show Reviews'}
+              <button
+                className={styles.additional__button}
+                onClick={handleShowReviews}
+              >
+                {showReviews ? ' Reviews' : ' Reviews'}
               </button>
             </li>
           </ul>

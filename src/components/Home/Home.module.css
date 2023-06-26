@@ -1,0 +1,40 @@
+.nav {
+  border-bottom: 1px solid grey;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+  height: 50px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.nav__name {
+  outline: none;
+  text-decoration: none;
+  color: black;
+  margin-left: 10px;
+  font-size: large;
+  transition: ease-in-out 0.3s;
+}
+.nav__namehome {
+  outline: none;
+  text-decoration: none;
+  color: black;
+  margin-left: 10px;
+  font-size: large;
+  color: rgb(249, 93, 119);
+  transition: ease-in-out 0.3s;
+}
+.nav__namehome:hover {
+  scale: 1.1;
+}
+.nav__name:hover {
+  scale: 1.1;
+}
+.h1 {
+  margin-left: 10px;
+}
+.li {
+  cursor: pointer;
+}
+.li:hover {
+  text-decoration: underline;
+}

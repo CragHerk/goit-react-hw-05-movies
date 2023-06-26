@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import styles from './Movies.module.css';
 
 const Movies = () => {
   const location = useLocation();
@@ -43,27 +44,34 @@ const Movies = () => {
 
   return (
     <div>
-      <nav>
-        <Link to="/">Home</Link>
-        <Link to="/movies" className="active">
+      <nav className={styles.nav}>
+        <Link to="/" className={styles.nav__namehome}>
+          Home
+        </Link>
+        <Link to="/movies" className={styles.nav__name}>
           Movies
         </Link>
       </nav>
-      <div>
-        <div>
-          <input
-            type="text"
-            placeholder="Wpisz słowo kluczowe"
-            value={searchInput}
-            onChange={handleInputChange}
-          />
-          <button onClick={handleSearch}>Szukaj</button>
-        </div>
+      <div className={styles.search}>
+        <input
+          className={styles.input}
+          type="text"
+          placeholder="enter film name"
+          value={searchInput}
+          onChange={handleInputChange}
+        />
+        <button className={styles.button} onClick={handleSearch}>
+          Search
+        </button>
       </div>
 
       <ul>
         {movies.map(movie => (
-          <li key={movie.id} onClick={() => handleMovieClick(movie.id)}>
+          <li
+            className={styles.li}
+            key={movie.id}
+            onClick={() => handleMovieClick(movie.id)}
+          >
             {movie.title}
           </li>
         ))}
