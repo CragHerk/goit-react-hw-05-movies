@@ -65,7 +65,7 @@ const Movies = () => {
           onChange={handleInputChange}
         />
         <button className={styles.button} type="submit">
-          Search
+          search
         </button>
       </form>
 
