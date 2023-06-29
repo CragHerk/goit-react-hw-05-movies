@@ -1,22 +1,20 @@
 import React, { useEffect, useState } from 'react';
+import { fetchMovieReviews } from 'services/tmdbAPI';
 
 const Reviews = ({ movieId }) => {
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
-    const fetchMovieReviews = async () => {
+    const fetchMovieReviewsData = async () => {
       try {
-        const response = await fetch(
-          `https://api.themoviedb.org/3/movie/${movieId}/reviews?api_key=9c2047c90d98ec66c1e34a0e397d29c4`
-        );
-        const data = await response.json();
-        setReviews(data.results);
+        const reviews = await fetchMovieReviews(movieId);
+        setReviews(reviews);
       } catch (error) {
         console.log('Error fetching movie reviews:', error);
       }
     };
 
-    fetchMovieReviews();
+    fetchMovieReviewsData();
   }, [movieId]);
 
   if (reviews.length === 0) {

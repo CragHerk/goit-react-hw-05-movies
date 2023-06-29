@@ -4,6 +4,7 @@ import { useParams, Link, useLocation } from 'react-router-dom';
 import Cast from '../Cast/Cast';
 import Reviews from '../Reviews/Reviews';
 import styles from './MovieDetails.module.css';
+import { fetchMovieDetails } from 'services/tmdbAPI';
 
 const MovieDetails = () => {
   const { movieId } = useParams();
@@ -14,15 +15,11 @@ const MovieDetails = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchMovieDetails = async () => {
+    const fetchMovieDetailsData = async () => {
       try {
-        const response = await fetch(
-          `https://api.themoviedb.org/3/movie/${movieId}?api_key=9c2047c90d98ec66c1e34a0e397d29c4`
-        );
-        const data = await response.json();
-        setMovieDetails(data);
+        const movieDetails = await fetchMovieDetails(movieId);
+        setMovieDetails(movieDetails);
 
-        // Symulacja opóźnienia dla wyświetlenia MoonLoader
         setTimeout(() => {
           setIsLoading(false);
         }, 300);
@@ -32,7 +29,7 @@ const MovieDetails = () => {
       }
     };
 
-    fetchMovieDetails();
+    fetchMovieDetailsData();
   }, [movieId, location.state]);
 
   const handleGoBack = () => {

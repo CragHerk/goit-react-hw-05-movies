@@ -1,22 +1,20 @@
 import React, { useEffect, useState } from 'react';
+import { fetchCast } from 'services/tmdbAPI';
 
 const Cast = ({ movieId }) => {
   const [cast, setCast] = useState([]);
 
   useEffect(() => {
-    const fetchCast = async () => {
+    const fetchMovieCast = async () => {
       try {
-        const response = await fetch(
-          `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=9c2047c90d98ec66c1e34a0e397d29c4`
-        );
-        const data = await response.json();
-        setCast(data.cast);
+        const cast = await fetchCast(movieId);
+        setCast(cast);
       } catch (error) {
         console.log('Error fetching cast:', error);
       }
     };
 
-    fetchCast();
+    fetchMovieCast();
   }, [movieId]);
 
   return (

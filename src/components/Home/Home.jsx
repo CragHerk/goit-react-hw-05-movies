@@ -1,25 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './Home.module.css';
+import { fetchMovies } from 'services/tmdbAPI';
 
 const Home = () => {
   const [movies, setMovies] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchMovies = async () => {
+    const fetchMoviesData = async () => {
       try {
-        const response = await fetch(
-          `https://api.themoviedb.org/3/trending/movie/day?api_key=9c2047c90d98ec66c1e34a0e397d29c4`
-        );
-        const data = await response.json();
-        setMovies(data.results);
+        const movies = await fetchMovies();
+        setMovies(movies);
       } catch (error) {
         console.log('Error fetching movies:', error);
       }
     };
 
-    fetchMovies();
+    fetchMoviesData();
   }, []);
 
   const handleMovieClick = movieId => {

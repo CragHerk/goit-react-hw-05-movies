@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styles from './Movies.module.css';
+import { fetchMoviesBySearchTerm } from 'services/tmdbAPI';
 
 const Movies = () => {
   const location = useLocation();
@@ -10,29 +11,32 @@ const Movies = () => {
   const [searchInput, setSearchInput] = useState('');
   const navigate = useNavigate();
 
-  useEffect(() => {
+  const fetchMoviesData = useCallback(async () => {
     if (searchTerm) {
-      fetchMovies(searchTerm);
+      try {
+        const movies = await fetchMoviesBySearchTerm(searchTerm);
+        setMovies(movies);
+      } catch (error) {
+        console.log('Error fetching movies:', error);
+      }
     }
   }, [searchTerm]);
 
-  const fetchMovies = async searchTerm => {
-    try {
-      const url = `https://api.themoviedb.org/3/search/movie?api_key=9c2047c90d98ec66c1e34a0e397d29c4&query=${encodeURIComponent(
-        searchTerm
-      )}`;
-      const response = await fetch(url);
-      const data = await response.json();
-      setMovies(data.results);
-    } catch (error) {
-      console.log('Error fetching movies:', error);
-    }
-  };
+  useEffect(() => {
+    fetchMoviesData();
+  }, [fetchMoviesData]);
 
-  const handleSearch = () => {
-    navigate(`/movies?search=${encodeURIComponent(searchInput)}`);
-    fetchMovies(searchInput);
-  };
+  const handleSearch = useCallback(
+    e => {
+      e.preventDefault();
+      navigate(`/movies?search=${encodeURIComponent(searchInput)}`);
+      setMovies([]); // Resetowanie listy filmów
+      if (searchInput) {
+        fetchMoviesData();
+      }
+    },
+    [searchInput, fetchMoviesData, navigate]
+  );
 
   const handleInputChange = e => {
     setSearchInput(e.target.value);
@@ -52,7 +56,7 @@ const Movies = () => {
           Movies
         </Link>
       </nav>
-      <div className={styles.search}>
+      <form className={styles.search} onSubmit={handleSearch}>
         <input
           className={styles.input}
           type="text"
@@ -60,10 +64,10 @@ const Movies = () => {
           value={searchInput}
           onChange={handleInputChange}
         />
-        <button className={styles.button} onClick={handleSearch}>
+        <button className={styles.button} type="submit">
           Search
         </button>
-      </div>
+      </form>
 
       <ul>
         {movies.map(movie => (
